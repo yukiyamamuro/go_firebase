@@ -1,0 +1,4 @@
+.env
+gopath/
+firebase/config
+firebase/bin

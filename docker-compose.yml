@@ -1,0 +1,41 @@
+version: "3"
+
+networks:
+    local_emu:
+
+services:
+  workspace:
+    image: golang:1.16
+    environment:
+      FIRESTORE_EMULATOR_HOST: "test-firebase:8080"
+      GCP_PROJECT_ID: "${GCP_PROJECT_ID}"
+    volumes:
+      - ./gopath/:/go:cached
+      - ./workspace/:/opt/workspace:cached
+    ports:
+      - 8000:8000
+    working_dir: /opt/workspace
+    networks:
+      - local_emu
+    command: bash
+    tty: true
+  test-firebase:
+    container_name: test-firebase
+    build:
+      context: ./docker
+      dockerfile: firebase.dockerfile
+    volumes:
+      - ./firebase/emulators/:/opt/workspace:cached
+      - ./firebase/bin/:/root.cached:cached
+      - ./firebase/config/:/root/.config:cached
+    ports:
+      - 14000:4000 # Emulator Suite UI
+      - 15000:5000 # Firebase Hosting
+      - 18080:8080 # Cloud Firestore
+      - 19000:9000 # Realtime Database
+      - 19099:9099 # Authentication
+    working_dir: /opt/workspace
+    networks:
+      - local_emu
+    command: bash
+    tty: true
