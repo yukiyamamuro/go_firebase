@@ -11,10 +11,10 @@ import (
 func main() {
 	ctx := context.Background()
 	client, err := firestore.NewClient(ctx, os.Getenv("GCP_PROJECT_ID"))
-	defer client.Close()
 	if err != nil {
 		log.Fatal(err.Error())
 	}
+	defer client.Close()
 
 	doc, _, err := client.Collection("users").Add(ctx, map[string]interface{}{
 		"name": "yukiyama",

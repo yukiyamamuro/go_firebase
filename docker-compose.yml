@@ -7,7 +7,7 @@ services:
   workspace:
     image: golang:1.16
     environment:
-      FIRESTORE_EMULATOR_HOST: "test-firebase:8080"
+      FIRESTORE_EMULATOR_HOST: "test-firebase:8081"
       GCP_PROJECT_ID: "${GCP_PROJECT_ID}"
     volumes:
       - ./gopath/:/go:cached
@@ -29,11 +29,11 @@ services:
       - ./firebase/bin/:/root.cached:cached
       - ./firebase/config/:/root/.config:cached
     ports:
-      - 14000:4000 # Emulator Suite UI
-      - 15000:5000 # Firebase Hosting
-      - 18080:8080 # Cloud Firestore
-      - 19000:9000 # Realtime Database
-      - 19099:9099 # Authentication
+      - 4000:4000 # Emulator Suite UI
+      - 5000:5000 # Firebase Hosting
+      - 8081:8081 # Cloud Firestore
+      - 9000:9000 # Realtime Database
+      - 9099:9099 # Authentication
     working_dir: /opt/workspace
     networks:
       - local_emu
